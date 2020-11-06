@@ -1,0 +1,19 @@
+baseURL = "http://pic.renzogort.nl/"
+languageCode = "en-us"
+title = "PIC Guides"
+theme = "bento"
+
+[menu]
+  [[menu.main]]
+    name = "Guides"
+    identifier = "guides"
+    url = "/guides/"  
+
+[params]
+  intro = true
+  headline = "PIC Guides made awesome"
+  description = "A collection of PIC guides in PIC-AS and XC8"
+
+  copyright = "Copyright © 2020 Renzo Gort"
+  ogImage = "images/archlinux-icon.svg"
+  avatar = "images/archlinux-icon.svg"

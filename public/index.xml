@@ -1,0 +1,23 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PIC Guides</title>
+    <link>http://pic.renzogort.nl/</link>
+    <description>Recent content on PIC Guides</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 Nov 2020 17:34:50 +0100</lastBuildDate>
+    
+        <atom:link href="http://pic.renzogort.nl/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Guides</title>
+      <link>http://pic.renzogort.nl/guides/</link>
+      <pubDate>Thu, 05 Nov 2020 17:34:50 +0100</pubDate>
+      
+      <guid>http://pic.renzogort.nl/guides/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

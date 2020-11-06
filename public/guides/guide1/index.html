@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#" lang="en-us"><head itemscope itemtype="http://pic.renzogort.nl/">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta property="og:locale" content="en">
+  <meta name="language" content="en">
+  
+  <title itemprop="name">Guide 1: Blink &middot; PIC Guides</title>
+  <meta property="og:title" content="Guide 1: Blink &middot; PIC Guides" />
+  <meta name="twitter:title" content="Guide 1: Blink &middot; PIC Guides" />
+  <meta itemprop="name" content="Guide 1: Blink &middot; PIC Guides" />
+  <meta name="application-name" content="PIC Guides" />
+  <meta property="og:site_name" content="PIC Guides" />
+  
+  <base href="http://pic.renzogort.nl/guides/guide1/">
+  <link rel="canonical" href="http://pic.renzogort.nl/guides/guide1/" itemprop="url" />
+  <meta name="url" content="http://pic.renzogort.nl/guides/guide1/" />
+  <meta name="twitter:url" content="http://pic.renzogort.nl/guides/guide1/" />
+  <meta property="og:url" content="http://pic.renzogort.nl/guides/guide1/" />
+  
+  
+    
+      <meta itemprop="image" content="http://pic.renzogort.nl/images/archlinux-icon.svg" />
+      <meta property="og:image" content="http://pic.renzogort.nl/images/archlinux-icon.svg" />
+      <meta name="twitter:image" content="http://pic.renzogort.nl/images/archlinux-icon.svg" />
+      <meta name="twitter:image:src" content="http://pic.renzogort.nl/images/archlinux-icon.svg" />
+    
+  
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  
+    <meta property="og:type" content="article" />
+    <meta itemprop="description" content="In this guide I will explain how to let a LED blink.
+Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
+    <meta property="og:description" content="In this guide I will explain how to let a LED blink.
+Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
+    <meta name="description" content="In this guide I will explain how to let a LED blink.
+Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
+    <meta name="twitter:description" content="In this guide I will explain how to let a LED blink.
+Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
+    <meta property="article:published_time" content="2020-11-05T17:34:50&#43;01:00" />
+    <meta name="twitter:label1" value="Reading time" />
+    
+      <meta name="twitter:data1" value="7 minutes" />
+    
+
+    
+  
+
+  <meta property="og:updated_time" content=2020-11-05T17:34:50&#43;0100 />
+
+  
+
+  
+
+  
+
+  <meta name="generator" content="Hugo 0.77.0" />
+
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  
+    
+    <link rel="stylesheet" href="http://pic.renzogort.nl/css/styles.min.ef433e47a104e30937dfad230e28b6dd329c9b4fe18ff4925850da1f24df3133.css" integrity="sha256-70M&#43;R6EE4wk3360jDii23TKcm0/hj/SSWFDaHyTfMTM=">
+  
+
+  
+    
+        <link href="/index.xml" rel="alternate" type="application/rss+xml" title="PIC Guides" />
+    
+    
+  
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"></script>
+</head>
+<body class="bg-gradient flex flex-col min-h-screen">
+  <header id="header" class="w-full m-0 fixed z-10 transition-all duration-300 ease-in-out border-t-4 border-gray-300 py-4 backdrop-filter-blur">
+    <div id="header-container" class="max-w-7xl mx-auto p-6 flex items-center flex-wrap lg:flex-no-wrap relative justify-between">
+      <a href="http://pic.renzogort.nl/" class="tracking-tighter leading-10 text-3xl font-semibold text-gray-600 flex flex-shrink-0">
+        PIC Guides
+      </a>
+
+      <div class="block lg:hidden mx-2">
+        <button class="nav-button w-10 h-10 justify-center flex items-center opacity-75 hover:opacity-100 transition duration-300 ease-in-out">
+  <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <title>Menu</title>
+    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+  </svg>
+</button>
+<button class="hidden nav-button w-10 h-10 justify-center flex items-center opacity-75 hover:opacity-100 transition duration-300 ease-in-out">
+  <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <title>Close menu</title>
+    <polygon points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2" transform="rotate(45 10 10)" />
+  </svg>
+</button>
+
+      </div>
+
+      <div class="absolute right-8 top-16 lg:relative lg:right-0 lg:top-0 flex flex-col lg:flex-row items-center rounded-md bg-white shadow lg:bg-transparent lg:shadow-none">
+        <nav id="nav-social-links" class="p-4 lg:p-0 text-gray-600 hidden lg:block lg:order-last w-full lg:w-auto lg:ml-3">
+          <ul class="flex justify-end">
+  
+  
+  
+  
+  
+  
+  
+  
+    <li>
+      <a class="block p-2 opacity-75 hover:opacity-100 transition duration-300 ease-in-out" title="Feed" href="/index.xml">
+        <svg class="fill-current w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <title>RSS</title>
+          <path
+            d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z" />
+        </svg>
+      </a>
+    </li>
+  
+</ul>
+
+        </nav>
+
+        <nav id="nav-menu" class="p-4 lg:p-0 hidden lg:block w-full lg:w-auto text-gray-600">
+          <ul class="w-full flex flex-col lg:flex-row justify-end items-end lg:items-center">
+  
+    <li class="flex my-2 lg:my-2 mx-1 lg:mx-2">
+      <a title="Guides" class="uppercase font-bold lg:py-2 lg:px-3 rounded text-sm opacity-75 hover:opacity-100 transition duration-300 ease-in-out" href="/guides/">Guides</a>
+    </li>
+  
+</ul>
+
+        </nav>
+      </div>
+    </div>
+  </header>
+
+<main class="flex-1 mt-12 max-w-3xl mt-32 mx-auto text-gray-700 w-full">
+<div id="reading-progress-bar" role="presentation" class="fixed z-10 top-0 left-0 h-1 bg-gray-700"></div>
+
+<article class="article">
+    
+      <header class="text-center pt-10 pb-6">
+        <small class="text-center text-sm">
+          <time class="text-gray-500" datetime="2020-11-05T17:34:50&#43;01:00">
+            November 5, 2020
+          </time>
+  
+          
+        </small>
+
+        <h1 class="leading-9 text-center">
+          <a href="http://pic.renzogort.nl/guides/guide1/" class="no-underline inline-block text-black relative">
+            <div class="dots"></div>
+            Guide 1: Blink
+          </a>
+        </h1>
+      </header>
+
+    
+
+    <div class="article__content">
+      <p>In this guide I will explain how to let a LED blink.</p>
+<h1 id="schema">Schema</h1>
+<p>The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resistor is used to limit the current to the LED so it won&rsquo;t blow up. The PIC16F1829 is powered with a voltage of 5V.</p>
+<p><img src="/schemas/guide1-blink.svg" alt="alt text" title="Guide 1: Blink | Schema"></p>
+<h1 id="registers">Registers</h1>
+<p>This is a table with all the registers used in this guide</p>
+<table>
+<thead>
+<tr>
+<th>Register</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TRISC</td>
+<td>Used for setting the pinmode of pin RC0</td>
+</tr>
+<tr>
+<td>LATC</td>
+<td>Used for writing to PORTC</td>
+</tr>
+<tr>
+<td>OSCCON</td>
+<td>Used for setting the clock speed</td>
+</tr>
+</tbody>
+</table>
+<h1 id="code">code</h1>
+<p>The code of a blinking led is pretty straight forward. It consists of some initialization and a endless loop.</p>
+<h2 id="initialization-of-the-leds">Initialization of the LEDs</h2>
+<p>For the LEDs need to be initializated. For this it is important to set the pinmode. The pinmode of a LED is output. According to register 12-16, TRISC, the value <code>1</code> is input and <code>0</code> is output.</p>
+<h2 id="endless-loop">Endless loop</h2>
+<p>The endless loop is comparable with the <code>void loop()</code> of the <a href="https://arduino.cc">Arduino</a>. In the endless loop the LEDs are turned on and of with a delay of 500ms. Writes are done to the LATC. This is needed to avoid that the data get corrupt when writing to the same port two instructions one after the other. This is because of how the pic handles bit manipulations: Read-Modify-Write. Because of this it is advised to always use the LAT register when writing to a port instead of writing it directly.</p>
+<h2 id="c">C</h2>
+<h3 id="delay-macro">Delay macro</h3>
+<p>The <code>__delay_ms()</code> is a macro of the compiler to delay for a certain amount of milliseconds. For this <code>_XTAL_FREQ</code> needs to be defined to let the macro know how fast the clock is. This is because the delay function is a simple piece of code that loops till the time is over. So if the clock is two time as fast. The delay will be two times as fast.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * File:   Guide1-blink.c
+</span><span style="color:#75715e"> * Author: Renzo Gort
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * Created on Nov 05, 2020
+</span><span style="color:#75715e"> */</span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;xc.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define _XTAL_FREQ 1000000      </span><span style="color:#75715e">// CPU 1MHz // Used for macro functions like &#39;__delay_ms()&#39;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#define HIGH 1                  </span><span style="color:#75715e">// Used for readability
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define LOW 0
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// Config will be explained in a future guide
+</span><span style="color:#75715e"></span><span style="color:#75715e">#pragma config FOSC=INTOSC
+</span><span style="color:#75715e">#pragma config WDTE=OFF
+</span><span style="color:#75715e">#pragma config PWRTE=OFF
+</span><span style="color:#75715e">#pragma config MCLRE=OFF
+</span><span style="color:#75715e">#pragma config CP=OFF
+</span><span style="color:#75715e">#pragma config CPD=OFF
+</span><span style="color:#75715e">#pragma config BOREN=ON
+</span><span style="color:#75715e">#pragma config CLKOUTEN=OFF
+</span><span style="color:#75715e">#pragma config IESO=OFF
+</span><span style="color:#75715e">#pragma config FCMEN=OFF
+</span><span style="color:#75715e">#pragma config WRT=OFF
+</span><span style="color:#75715e">#pragma config PLLEN=OFF
+</span><span style="color:#75715e">#pragma config STVREN=OFF
+</span><span style="color:#75715e">#pragma config BORV=HI
+</span><span style="color:#75715e">#pragma config LVP=OFF
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+  OSCCON <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>b01011000;        <span style="color:#75715e">// Set the CPU speed on 1MHz
+</span><span style="color:#75715e"></span>
+  TRISCbits.TRISC0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;       <span style="color:#75715e">// RC0 is output
+</span><span style="color:#75715e"></span>  
+  <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>) {                  <span style="color:#75715e">// Endless Loop
+</span><span style="color:#75715e"></span>    LATCbits.LATC0 <span style="color:#f92672">=</span> HIGH;  <span style="color:#75715e">// Turn on LED RC0
+</span><span style="color:#75715e"></span>    __delay_ms(<span style="color:#ae81ff">500</span>);        <span style="color:#75715e">// Wait 500 milliseconds
+</span><span style="color:#75715e"></span>    LATCbits.LATC0 <span style="color:#f92672">=</span> LOW;   <span style="color:#75715e">// Turn off LED RC0
+</span><span style="color:#75715e"></span>    __delay_ms(<span style="color:#ae81ff">500</span>);        <span style="color:#75715e">// Wait 500 milliseconds
+</span><span style="color:#75715e"></span>  }
+  
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h2 id="pic-as">PIC-AS</h2>
+<h3 id="psect">Psect</h3>
+<p>A Psect is a section in the code. It can contain a few settings: code origin, type of content, addressing format, etc. In this program the <code>reset_section</code> is an important piece. This section sets the address of the <code>main_section</code> so the microproccessor knows where to find it. In a later guide a further explanation will be provided. If you want to know more now read section 4.9.40 of the <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/MPLAB%20XC8%20PIC%20Assembler%20User's%20Guide%2050002974A.pdf">Microchip MPLAB® XC8 PIC® Assembler User&rsquo;s Guide</a>.</p>
+<h3 id="registers-1">Registers</h3>
+<p>The PIC16F1829 memory is divided into 32 banks. Each bank consists of 4 parts. 2 of these parts are availible in all banks and for the other two parts the programmer must explicitly say which bank to use. This can be done with the assembler directive <code>banksel</code>. For example if the program wants to use register <code>LATC</code> the program will be something like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">LATC</span>  <span style="color:#75715e">; Select the bank that consists LATC
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">movlw</span>   <span style="color:#ae81ff">0xF0</span>  <span style="color:#75715e">; Move 0xF0 into the working register
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">movwf</span>   <span style="color:#66d9ef">LATC</span>  <span style="color:#75715e">; Write the working register to LATC
+</span></code></pre></div><h4 id="core-registers">Core registers</h4>
+<p>1 part of the registers that is available in all banks are the core registers. These registers affect the basic operation of the PIC-microproccessor directly. The core registers are listed below.</p>
+<ul>
+<li>INDF0</li>
+<li>INDF1</li>
+<li>PCL</li>
+<li>STATUS</li>
+<li>FSR0L</li>
+<li>FSR0H</li>
+<li>FSR1L</li>
+<li>FSR1H</li>
+<li>BSR</li>
+<li>WREG</li>
+<li>PCLATH</li>
+<li>INTCON</li>
+</ul>
+<h4 id="common-ram">Common RAM</h4>
+<p>The second part of the registers that are available in all banks is the common RAM. The common RAM can be used by a programmer without having to worry about which bank is selected. This is useful for data that is regulary used throughout the program.</p>
+<h4 id="special-function-registers">Special Function Registers</h4>
+<p>The special function registers have to be selected before use(with the directive <code>banksel</code>). These registers contain for example: <code>LATC</code>, <code>TRISC</code> and <code>OSCCON</code>. For a full list of registers per bank see table 3-3, 3-4, 3-5, 3-6 and 3-7 of the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf">datasheet</a>.</p>
+<h4 id="general-purpose-ram">General Purpose RAM</h4>
+<p>The general purpose RAM consists of up to 80-bytes per bank. According to table 3-3, 3-4, 3-5, 3-6 and 3-7 of the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf">datasheet</a> only bank 0 till 11 have the full 80-bytes where bank 12 have 48-bytes and bank 13 till 31 have 0-bytes of general purpose RAM. This adds up to a total of 1008-bytes. Together with the 16-bytes of common RAM this is 1024-bytes of RAM.</p>
+<h3 id="delay-function-and-variables">Delay function and variables</h3>
+<p>In the program two variables are used: <code>Delay1</code> and <code>Delay2</code>. These variables are use for the inner and outer loop of the delay function. The inner delay consists of exactly 5 instructions. With this number a delay can be calculated with a simple formula: <code>Delay_time = (Delay1 * 5 / (clock_speed / 4 / 1000)) * Delay2</code>. In this program a delay of 500 ms is used. Each instructioncycle takes 4 clockcycles. Also in this formula the clockspeed is devided by 1000 for use with milliseconds instead of seconds. Together with a Delay1 of 50 the following calculation can be made:</p>
+<pre><code>Delay_time = (Delay1 * 5 / (clock_speed / 4 / 1000)) * Delay2
+Delay2 = Delay_time / (Delay1 * 5 / (clock_speed / 4 / 1000))
+Delay2 = 500 / (50 * 5 / (500000 / 4 / 1000))
+Delay2 = 500 / (250 / (125000 / 1000))
+Delay2 = 500 / (250 / 125)
+Delay2 = 500 / 2
+Delay2 = 250
+</code></pre><h3 id="delay-function">Delay function</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#75715e">; Specify the PIC16F1829 as processor for security
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">processor</span> <span style="color:#ae81ff">16</span><span style="color:#66d9ef">f1829</span>
+
+<span style="color:#75715e">#include &lt;xc.inc&gt;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">; Config will be explained in a future guide
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">config</span> <span style="color:#66d9ef">FOSC</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">INTOSC</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">WDTE</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">PWRTE</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">MCLRE</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">CP</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">CPD</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">BOREN</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">ON</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">CLKOUTEN</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">IESO</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">FCMEN</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">WRT</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">PLLEN</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">STVREN</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">BORV</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">HI</span>
+<span style="color:#a6e22e">config</span> <span style="color:#66d9ef">LVP</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">OFF</span>
+
+
+<span style="color:#75715e">; Variables with addresses in the common register space
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Delay1</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">0x70</span>
+<span style="color:#a6e22e">Delay2</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">0x71</span>
+
+<span style="color:#a6e22e">psect</span> <span style="color:#66d9ef">reset_section</span>, <span style="color:#66d9ef">abs</span>, <span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">CODE</span>, <span style="color:#66d9ef">delta</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">2</span>
+reset_vector:
+  <span style="color:#a6e22e">pagesel</span> <span style="color:#66d9ef">start</span>
+  <span style="color:#a6e22e">goto</span> <span style="color:#66d9ef">start</span>
+
+
+<span style="color:#a6e22e">psect</span> <span style="color:#66d9ef">main_section</span>, <span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#66d9ef">CODE</span>, <span style="color:#66d9ef">delta</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">2</span>
+start:     
+  <span style="color:#a6e22e">movlw</span> <span style="color:#ae81ff">00111000</span><span style="color:#66d9ef">B</span>	  <span style="color:#75715e">; Set CPU clock speed on 500kHz
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movwf</span> <span style="color:#66d9ef">OSCCON</span>
+
+  <span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">TRISC</span>     <span style="color:#75715e">; select the bank which contains TRISC     
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bcf</span>     <span style="color:#66d9ef">TRISC</span>, <span style="color:#ae81ff">0</span>  <span style="color:#75715e">; make IO Pin RC0 an output         
+</span><span style="color:#75715e"></span>    
+
+
+<span style="color:#66d9ef">loop</span>:    
+  <span style="color:#66d9ef">banksel</span> <span style="color:#66d9ef">LATC</span>      <span style="color:#75715e">; select the bank which contains LATC
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bcf</span>     <span style="color:#66d9ef">LATC</span>      <span style="color:#75715e">; Turn off LED RC0
+</span><span style="color:#75715e"></span>    
+  <span style="color:#75715e">; Wait 500 milliseconds
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movlw</span>   <span style="color:#ae81ff">250</span>       <span style="color:#75715e">; Move a value of 250 into the working register
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movwf</span>   <span style="color:#66d9ef">Delay2</span>    <span style="color:#75715e">; Move 250 to the variable Delay2
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">call</span>    <span style="color:#66d9ef">delayLoop</span> <span style="color:#75715e">; Call the delay function: 250*2ms= 500ms delay
+</span><span style="color:#75715e"></span>
+
+  <span style="color:#a6e22e">bsf</span>     <span style="color:#66d9ef">LATC</span>, <span style="color:#ae81ff">0</span>   <span style="color:#75715e">; Turn on LED RC0
+</span><span style="color:#75715e"></span>    
+  <span style="color:#75715e">; Wait 500 milliseconds
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movlw</span>   <span style="color:#ae81ff">250</span>       <span style="color:#75715e">; Move a value of 250 into the working register
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movwf</span>   <span style="color:#66d9ef">Delay2</span>    <span style="color:#75715e">; Move 250 to the variable Delay2
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">call</span>    <span style="color:#66d9ef">delayLoop</span> <span style="color:#75715e">; Call the delay function: 250*2ms= 500ms delay
+</span><span style="color:#75715e"></span>    
+  <span style="color:#75715e">; Go back to the beginning of the loop for an endless loop
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">goto</span>    <span style="color:#66d9ef">loop</span>
+    
+
+    
+<span style="color:#75715e">;==================================================;
+</span><span style="color:#75715e">; Delay loop: 
+</span><span style="color:#75715e">;     Delay2: &lt;value&gt; * 2ms = delay time
+</span><span style="color:#75715e">;==================================================;
+</span><span style="color:#75715e"></span>delayLoop:
+  <span style="color:#a6e22e">movlw</span>   <span style="color:#ae81ff">50</span>            <span style="color:#75715e">; 50 * 5 instructions = 250 instr. 
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movwf</span>   <span style="color:#66d9ef">Delay1</span>        <span style="color:#75715e">; 250 / 125000 instructions/s = 2ms.
+</span><span style="color:#75715e"></span>                  
+<span style="color:#66d9ef">delayLoopInner</span>:
+  <span style="color:#a6e22e">nop</span>                   <span style="color:#75715e">; A nop takes 1 cycle to complete
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">nop</span>                   <span style="color:#75715e">; Where a bra instruction takes two cycles
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">decfsz</span>  <span style="color:#66d9ef">Delay1</span>, <span style="color:#66d9ef">f</span>     <span style="color:#75715e">; Because of this each innerloop takes 
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bra</span>     <span style="color:#66d9ef">delayLoopInner</span><span style="color:#75715e">; 1 + 1 + 1 + 2 = 5 cycles 
+</span><span style="color:#75715e"></span>                        <span style="color:#75715e">; Together with 50 loops that is 
+</span><span style="color:#75715e"></span>                        <span style="color:#75715e">; 50 * 5 instructions = 250 instructions
+</span><span style="color:#75715e"></span>
+  <span style="color:#a6e22e">decfsz</span>  <span style="color:#66d9ef">Delay2</span>, <span style="color:#66d9ef">f</span>     <span style="color:#75715e">; Decrement the delay2 variable to zero
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bra</span>	    <span style="color:#66d9ef">delayLoop</span>     <span style="color:#75715e">; If Delay2 is not equal to zero
+</span><span style="color:#75715e"></span>                        <span style="color:#75715e">; Do the loop again
+</span><span style="color:#75715e"></span>  
+  <span style="color:#66d9ef">return</span>                <span style="color:#75715e">; The loops have finished so delay is done
+</span><span style="color:#75715e"></span>    
+    
+    
+  <span style="color:#66d9ef">end</span>     <span style="color:#66d9ef">reset_vector</span>  <span style="color:#75715e">; Tell assembler to stop assembling
+</span></code></pre></div>
+    </div>
+
+    
+      <section class="my-5 pt-10 pb-5 border-t border-gray-400 flex items-center">
+        
+          <img alt="Avatar photo" class="border border-gray-400 p-1 w-10 h-10 rounded-full mr-3" src="/images/archlinux-icon.svg">
+        
+
+        <span class="flex-grow"></span>
+
+        
+        
+        
+        <a href="http://twitter.com/share?url=http%3a%2f%2fpic.renzogort.nl%2fguides%2fguide1%2f&text=Guide%201%3a%20Blink&via=" class="text-white text-xs font-bold rounded-md no-underline flex items-center px-3 py-2 bg-twitter hover:color-white hover:opacity-75 no-underline">
+          <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <title>Twitter</title>
+            <path d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67v-.53c.8-.59 1.49-1.3 2.04-2.13-.75.33-1.54.55-2.36.65a4.12 4.12 0 0 0 1.8-2.27c-.8.48-1.68.81-2.6 1a4.1 4.1 0 0 0-7 3.74 11.65 11.65 0 0 1-8.45-4.3 4.1 4.1 0 0 0 1.27 5.49C2.01 8.2 1.37 8.03.8 7.7v.05a4.1 4.1 0 0 0 3.3 4.03 4.1 4.1 0 0 1-1.86.07 4.1 4.1 0 0 0 3.83 2.85A8.23 8.23 0 0 1 0 16.4a11.62 11.62 0 0 0 6.29 1.84"></path>
+          </svg>
+
+          Tweet
+        </a>
+      </section>
+    
+
+    
+      <section class="my-5 py-5 ">
+        <h2>Comments</h2>
+        
+      </section>
+    
+</article>
+
+
+  <aside class="flex">
+  
+  
+    <a class="w-full md:w-1/2 flex flex-col items-center py-7 px-3 no-underline rounded-md hover:bg-white transition duration-300 ease-in-out" href="/guides/general-information/">
+      <span class="border border-gray-6 text-xs rounded-md mb-2 uppercase font-bold py-2 px-3">You might enjoy</span>
+      <span class="text-center">General Information</span>
+    </a>
+  
+</aside>
+
+
+
+    </main><footer class="w-full max-w-7xl mx-auto text-center border-t border-gray-200 py-9 px-3 mt-9 pin-b text-sm text-gray-500">
+  Made with <a href="https://gohugo.io" class="underline transition duration-300 ease-in-out hover:text-blue-600">Hugo</a> and <a href="https://github.com/leonardofaria/bento" class="underline transition duration-300 ease-in-out hover:text-blue-600">Bento theme</a>. 
+  Copyright © 2020 Renzo Gort
+</footer>
+
+<script>
+  var initMenu = () => {
+    var navButtons = document.querySelectorAll('.nav-button');
+    var navMenu = document.querySelector('#nav-menu');
+    var navSocialLinks = document.querySelector('#nav-social-links');
+
+    for (var button of navButtons) {
+      button.addEventListener('click', () => {
+        console.log('click')
+        navMenu.classList.toggle("hidden");
+
+        if (navSocialLinks) {
+          navSocialLinks.classList.toggle("hidden");
+        }
+
+        for (var navButton of navButtons) {
+          navButton.classList.toggle("hidden");
+        };
+      });
+    }
+  }
+  document.addEventListener('turbolinks:load', initMenu());
+</script>
+
+
+<script>
+  var initHeader = () => {
+    let scrollPos = window.scrollY;
+    var header = document.querySelector('#header');
+    var headerContainer = document.querySelector("#header-container");
+    var readingProgressBar = document.querySelector("#reading-progress-bar");
+    let scrollTop = 0;
+    let scrollBottom = 0;
+    let scrollPercent = 0;
+
+    var addClassOnScroll = () => {
+      header.classList.add("shadow");
+      header.classList.add("bg-white-90");
+      header.classList.remove("py-4");
+    }
+    var removeClassOnScroll = () => {
+      header.classList.remove("shadow");
+      header.classList.remove("bg-white-90");
+      header.classList.add("py-4");
+    }
+
+    window.onscroll = function () {
+      scrollPos = window.scrollY;
+      scrollTop = document.documentElement["scrollTop"] || document.body["scrollTop"];
+      scrollBottom = (document.documentElement["scrollHeight"] || document.body["scrollHeight"]) - document.documentElement.clientHeight;
+      scrollPercent = scrollTop / scrollBottom * 100;
+      readingProgressBar.style.width = (scrollTop / scrollBottom * 100) + '%';
+
+      if (scrollPos > 0) { addClassOnScroll() }
+      else { removeClassOnScroll() }
+    }
+  }
+  document.addEventListener('turbolinks:load', initHeader());
+</script>
+
+
+
+
+
+</body>
+</html>

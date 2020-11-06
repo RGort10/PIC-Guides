@@ -1,0 +1,280 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guides on PIC Guides</title>
+    <link>http://pic.renzogort.nl/guides/</link>
+    <description>Recent content in Guides on PIC Guides</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 Nov 2020 17:34:50 +0100</lastBuildDate>
+    
+        <atom:link href="http://pic.renzogort.nl/guides/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Guide 1: Blink</title>
+      <link>http://pic.renzogort.nl/guides/guide1/</link>
+      <pubDate>Thu, 05 Nov 2020 17:34:50 +0100</pubDate>
+      
+      <guid>http://pic.renzogort.nl/guides/guide1/</guid>
+      <description>&lt;p&gt;In this guide I will explain how to let a LED blink.&lt;/p&gt;
+&lt;h1 id=&#34;schema&#34;&gt;Schema&lt;/h1&gt;
+&lt;p&gt;The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resistor is used to limit the current to the LED so it won&amp;rsquo;t blow up. The PIC16F1829 is powered with a voltage of 5V.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://pic.renzogort.nl/schemas/guide1-blink.svg&#34; alt=&#34;alt text&#34; title=&#34;Guide 1: Blink | Schema&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;registers&#34;&gt;Registers&lt;/h1&gt;
+&lt;p&gt;This is a table with all the registers used in this guide&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Register&lt;/th&gt;
+&lt;th&gt;Use case&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;TRISC&lt;/td&gt;
+&lt;td&gt;Used for setting the pinmode of pin RC0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;LATC&lt;/td&gt;
+&lt;td&gt;Used for writing to PORTC&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OSCCON&lt;/td&gt;
+&lt;td&gt;Used for setting the clock speed&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;code&#34;&gt;code&lt;/h1&gt;
+&lt;p&gt;The code of a blinking led is pretty straight forward. It consists of some initialization and a endless loop.&lt;/p&gt;
+&lt;h2 id=&#34;initialization-of-the-leds&#34;&gt;Initialization of the LEDs&lt;/h2&gt;
+&lt;p&gt;For the LEDs need to be initializated. For this it is important to set the pinmode. The pinmode of a LED is output. According to register 12-16, TRISC, the value &lt;code&gt;1&lt;/code&gt; is input and &lt;code&gt;0&lt;/code&gt; is output.&lt;/p&gt;
+&lt;h2 id=&#34;endless-loop&#34;&gt;Endless loop&lt;/h2&gt;
+&lt;p&gt;The endless loop is comparable with the &lt;code&gt;void loop()&lt;/code&gt; of the &lt;a href=&#34;https://arduino.cc&#34;&gt;Arduino&lt;/a&gt;. In the endless loop the LEDs are turned on and of with a delay of 500ms. Writes are done to the LATC. This is needed to avoid that the data get corrupt when writing to the same port two instructions one after the other. This is because of how the pic handles bit manipulations: Read-Modify-Write. Because of this it is advised to always use the LAT register when writing to a port instead of writing it directly.&lt;/p&gt;
+&lt;h2 id=&#34;c&#34;&gt;C&lt;/h2&gt;
+&lt;h3 id=&#34;delay-macro&#34;&gt;Delay macro&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;__delay_ms()&lt;/code&gt; is a macro of the compiler to delay for a certain amount of milliseconds. For this &lt;code&gt;_XTAL_FREQ&lt;/code&gt; needs to be defined to let the macro know how fast the clock is. This is because the delay function is a simple piece of code that loops till the time is over. So if the clock is two time as fast. The delay will be two times as fast.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * File:   Guide1-blink.c
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Author: Renzo Gort
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; *
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; * Created on Nov 05, 2020
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;xc.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define _XTAL_FREQ 1000000      &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// CPU 1MHz // Used for macro functions like &amp;#39;__delay_ms()&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#define HIGH 1                  &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Used for readability
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define LOW 0
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// Config will be explained in a future guide
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config FOSC=INTOSC
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config WDTE=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config PWRTE=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config MCLRE=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config CP=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config CPD=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config BOREN=ON
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config CLKOUTEN=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config IESO=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config FCMEN=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config WRT=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config PLLEN=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config STVREN=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config BORV=HI
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#pragma config LVP=OFF
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;) {
+  OSCCON &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;b01011000;        &lt;span style=&#34;color:#75715e&#34;&gt;// Set the CPU speed on 1MHz
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+  TRISCbits.TRISC0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;       &lt;span style=&#34;color:#75715e&#34;&gt;// RC0 is output
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {                  &lt;span style=&#34;color:#75715e&#34;&gt;// Endless Loop
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    LATCbits.LATC0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; HIGH;  &lt;span style=&#34;color:#75715e&#34;&gt;// Turn on LED RC0
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    __delay_ms(&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;);        &lt;span style=&#34;color:#75715e&#34;&gt;// Wait 500 milliseconds
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    LATCbits.LATC0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LOW;   &lt;span style=&#34;color:#75715e&#34;&gt;// Turn off LED RC0
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    __delay_ms(&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;);        &lt;span style=&#34;color:#75715e&#34;&gt;// Wait 500 milliseconds
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  }
+  
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;pic-as&#34;&gt;PIC-AS&lt;/h2&gt;
+&lt;h3 id=&#34;psect&#34;&gt;Psect&lt;/h3&gt;
+&lt;p&gt;A Psect is a section in the code. It can contain a few settings: code origin, type of content, addressing format, etc. In this program the &lt;code&gt;reset_section&lt;/code&gt; is an important piece. This section sets the address of the &lt;code&gt;main_section&lt;/code&gt; so the microproccessor knows where to find it. In a later guide a further explanation will be provided. If you want to know more now read section 4.9.40 of the &lt;a href=&#34;https://ww1.microchip.com/downloads/en/DeviceDoc/MPLAB%20XC8%20PIC%20Assembler%20User&#39;s%20Guide%2050002974A.pdf&#34;&gt;Microchip MPLAB® XC8 PIC® Assembler User&amp;rsquo;s Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;registers-1&#34;&gt;Registers&lt;/h3&gt;
+&lt;p&gt;The PIC16F1829 memory is divided into 32 banks. Each bank consists of 4 parts. 2 of these parts are availible in all banks and for the other two parts the programmer must explicitly say which bank to use. This can be done with the assembler directive &lt;code&gt;banksel&lt;/code&gt;. For example if the program wants to use register &lt;code&gt;LATC&lt;/code&gt; the program will be something like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-asm&#34; data-lang=&#34;asm&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;banksel&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LATC&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;; Select the bank that consists LATC
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;movlw&lt;/span&gt;   &lt;span style=&#34;color:#ae81ff&#34;&gt;0xF0&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;; Move 0xF0 into the working register
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;movwf&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;LATC&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;; Write the working register to LATC
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;core-registers&#34;&gt;Core registers&lt;/h4&gt;
+&lt;p&gt;1 part of the registers that is available in all banks are the core registers. These registers affect the basic operation of the PIC-microproccessor directly. The core registers are listed below.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;INDF0&lt;/li&gt;
+&lt;li&gt;INDF1&lt;/li&gt;
+&lt;li&gt;PCL&lt;/li&gt;
+&lt;li&gt;STATUS&lt;/li&gt;
+&lt;li&gt;FSR0L&lt;/li&gt;
+&lt;li&gt;FSR0H&lt;/li&gt;
+&lt;li&gt;FSR1L&lt;/li&gt;
+&lt;li&gt;FSR1H&lt;/li&gt;
+&lt;li&gt;BSR&lt;/li&gt;
+&lt;li&gt;WREG&lt;/li&gt;
+&lt;li&gt;PCLATH&lt;/li&gt;
+&lt;li&gt;INTCON&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;common-ram&#34;&gt;Common RAM&lt;/h4&gt;
+&lt;p&gt;The second part of the registers that are available in all banks is the common RAM. The common RAM can be used by a programmer without having to worry about which bank is selected. This is useful for data that is regulary used throughout the program.&lt;/p&gt;
+&lt;h4 id=&#34;special-function-registers&#34;&gt;Special Function Registers&lt;/h4&gt;
+&lt;p&gt;The special function registers have to be selected before use(with the directive &lt;code&gt;banksel&lt;/code&gt;). These registers contain for example: &lt;code&gt;LATC&lt;/code&gt;, &lt;code&gt;TRISC&lt;/code&gt; and &lt;code&gt;OSCCON&lt;/code&gt;. For a full list of registers per bank see table 3-3, 3-4, 3-5, 3-6 and 3-7 of the &lt;a href=&#34;http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf&#34;&gt;datasheet&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;general-purpose-ram&#34;&gt;General Purpose RAM&lt;/h4&gt;
+&lt;p&gt;The general purpose RAM consists of up to 80-bytes per bank. According to table 3-3, 3-4, 3-5, 3-6 and 3-7 of the &lt;a href=&#34;http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf&#34;&gt;datasheet&lt;/a&gt; only bank 0 till 11 have the full 80-bytes where bank 12 have 48-bytes and bank 13 till 31 have 0-bytes of general purpose RAM. This adds up to a total of 1008-bytes. Together with the 16-bytes of common RAM this is 1024-bytes of RAM.&lt;/p&gt;
+&lt;h3 id=&#34;delay-function-and-variables&#34;&gt;Delay function and variables&lt;/h3&gt;
+&lt;p&gt;In the program two variables are used: &lt;code&gt;Delay1&lt;/code&gt; and &lt;code&gt;Delay2&lt;/code&gt;. These variables are use for the inner and outer loop of the delay function. The inner delay consists of exactly 5 instructions. With this number a delay can be calculated with a simple formula: &lt;code&gt;Delay_time = (Delay1 * 5 / (clock_speed / 4 / 1000)) * Delay2&lt;/code&gt;. In this program a delay of 500 ms is used. Each instructioncycle takes 4 clockcycles. Also in this formula the clockspeed is devided by 1000 for use with milliseconds instead of seconds. Together with a Delay1 of 50 the following calculation can be made:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Delay_time = (Delay1 * 5 / (clock_speed / 4 / 1000)) * Delay2
+Delay2 = Delay_time / (Delay1 * 5 / (clock_speed / 4 / 1000))
+Delay2 = 500 / (50 * 5 / (500000 / 4 / 1000))
+Delay2 = 500 / (250 / (125000 / 1000))
+Delay2 = 500 / (250 / 125)
+Delay2 = 500 / 2
+Delay2 = 250
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;delay-function&#34;&gt;Delay function&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-asm&#34; data-lang=&#34;asm&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;; Specify the PIC16F1829 as processor for security
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;processor&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;16&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;f1829&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;#include &amp;lt;xc.inc&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;; Config will be explained in a future guide
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FOSC&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;INTOSC&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WDTE&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;PWRTE&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MCLRE&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;CP&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;CPD&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BOREN&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;CLKOUTEN&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;IESO&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FCMEN&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WRT&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;PLLEN&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;STVREN&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BORV&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;HI&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LVP&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;; Variables with addresses in the common register space
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Delay1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;equ&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0x70&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;Delay2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;equ&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0x71&lt;/span&gt;
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;psect&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;reset_section&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;abs&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CODE&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;delta&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+reset_vector:
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;pagesel&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;start&lt;/span&gt;
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;goto&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;start&lt;/span&gt;
+
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;psect&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;main_section&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CODE&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;delta&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+start:     
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;movlw&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;00111000&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;B&lt;/span&gt;	  &lt;span style=&#34;color:#75715e&#34;&gt;; Set CPU clock speed on 500kHz
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;movwf&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OSCCON&lt;/span&gt;
+
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;banksel&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TRISC&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;; select the bank which contains TRISC     
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;bcf&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;TRISC&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;; make IO Pin RC0 an output         
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    
+
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;loop&lt;/span&gt;:    
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;banksel&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LATC&lt;/span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;; select the bank which contains LATC
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;bcf&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;LATC&lt;/span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;; Turn off LED RC0
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    
+  &lt;span style=&#34;color:#75715e&#34;&gt;; Wait 500 milliseconds
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;movlw&lt;/span&gt;   &lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;; Move a value of 250 into the working register
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;movwf&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;Delay2&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;; Move 250 to the variable Delay2
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;call&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;delayLoop&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;; Call the delay function: 250*2ms= 500ms delay
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;bsf&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;LATC&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;; Turn on LED RC0
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    
+  &lt;span style=&#34;color:#75715e&#34;&gt;; Wait 500 milliseconds
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;movlw&lt;/span&gt;   &lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;; Move a value of 250 into the working register
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;movwf&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;Delay2&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;; Move 250 to the variable Delay2
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;call&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;delayLoop&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;; Call the delay function: 250*2ms= 500ms delay
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    
+  &lt;span style=&#34;color:#75715e&#34;&gt;; Go back to the beginning of the loop for an endless loop
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;goto&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;loop&lt;/span&gt;
+    
+
+    
+&lt;span style=&#34;color:#75715e&#34;&gt;;==================================================;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;; Delay loop: 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;;     Delay2: &amp;lt;value&amp;gt; * 2ms = delay time
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;;==================================================;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;delayLoop:
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;movlw&lt;/span&gt;   &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;; 50 * 5 instructions = 250 instr. 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;movwf&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;Delay1&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;; 250 / 125000 instructions/s = 2ms.
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;delayLoopInner&lt;/span&gt;:
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;nop&lt;/span&gt;                   &lt;span style=&#34;color:#75715e&#34;&gt;; A nop takes 1 cycle to complete
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;nop&lt;/span&gt;                   &lt;span style=&#34;color:#75715e&#34;&gt;; Where a bra instruction takes two cycles
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;decfsz&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;Delay1&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;f&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;; Because of this each innerloop takes 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;bra&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;delayLoopInner&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;; 1 + 1 + 1 + 2 = 5 cycles 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                        &lt;span style=&#34;color:#75715e&#34;&gt;; Together with 50 loops that is 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                        &lt;span style=&#34;color:#75715e&#34;&gt;; 50 * 5 instructions = 250 instructions
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;decfsz&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;Delay2&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;f&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;; Decrement the delay2 variable to zero
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;bra&lt;/span&gt;	    &lt;span style=&#34;color:#66d9ef&#34;&gt;delayLoop&lt;/span&gt;     &lt;span style=&#34;color:#75715e&#34;&gt;; If Delay2 is not equal to zero
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                        &lt;span style=&#34;color:#75715e&#34;&gt;; Do the loop again
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;; The loops have finished so delay is done
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    
+    
+    
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;reset_vector&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;; Tell assembler to stop assembling
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>General Information</title>
+      <link>http://pic.renzogort.nl/guides/general-information/</link>
+      <pubDate>Thu, 05 Nov 2020 17:20:49 +0100</pubDate>
+      
+      <guid>http://pic.renzogort.nl/guides/general-information/</guid>
+      <description>&lt;p&gt;Welcome at the PIC Guide. Here I will post some guides regarding the PIC-microproccessor. They will contain code examples together with explanation of the workings of the microcontroller. In this guide the &lt;a href=&#34;https://www.microchip.com/wwwproducts/en/PIC16F1829&#34;&gt;PIC16F1829&lt;/a&gt; will be used. This is a 8-bit microprocessor with 1kb of RAM.&lt;/p&gt;
+&lt;p&gt;The guides are always structured in the same way. The only difference is if the guide features C and/or PIC-AS. The guides are structerd as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;General info about the guide&lt;/li&gt;
+&lt;li&gt;A schema to test the code on&lt;/li&gt;
+&lt;li&gt;A list of registers used with their use case&lt;/li&gt;
+&lt;li&gt;General info about the program
+&lt;ul&gt;
+&lt;li&gt;C program
+&lt;ul&gt;
+&lt;li&gt;Extra info about the C program&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;PIC-AS program
+&lt;ul&gt;
+&lt;li&gt;Extra info about the workings of the microcontroller&lt;/li&gt;
+&lt;li&gt;Extra info about the PIC-AS program&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;requirements&#34;&gt;Requirements&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Little knowledge of the C programming language&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.microchip.com/mplab/mplab-x-ide&#34;&gt;Microchip MPLAB IDE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.microchip.com/en-us/development-tools-tools-and-software/mplab-xc-compilers&#34;&gt;XC8 compiler&lt;/a&gt; and PIC-AS Assembler (PIC-AS Assembler comes with the XC8 compiler)&lt;/li&gt;
+&lt;li&gt;Pickit &lt;a href=&#34;https://www.microchip.com/Developmenttools/ProductDetails/PG164130&#34;&gt;3&lt;/a&gt;, &lt;a href=&#34;https://www.microchip.com/developmenttools/ProductDetails/PG164140&#34;&gt;4&lt;/a&gt; or similar PIC-programmer&lt;/li&gt;
+&lt;li&gt;a &lt;a href=&#34;https://www.microchip.com/wwwproducts/en/PIC16F1829&#34;&gt;PIC16F1829&lt;/a&gt; (Other PIC-microcontrollers are also useable but There might be some minor differences check the datasheet of your PIC for the differences.)&lt;/li&gt;
+&lt;li&gt;Some electrical components (Each guide will have a schema but you have to select your own components)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;references-in-the-guides&#34;&gt;References in the guides&lt;/h2&gt;
+&lt;p&gt;The guide will have some references to some pdfs&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf&#34;&gt;Microchip PIC16F1829 Datasheet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://ww1.microchip.com/downloads/en/devicedoc/50002053g.pdf&#34;&gt;Microchip MPLAB® XC8 C Compiler User&amp;rsquo;s Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ww1.microchip.com/downloads/en/DeviceDoc/MPLAB%20XC8%20PIC%20Assembler%20User&#39;s%20Guide%2050002974A.pdf&#34;&gt;Microchip MPLAB® XC8 PIC® Assembler User&amp;rsquo;s Guide&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
