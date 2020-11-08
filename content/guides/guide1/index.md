@@ -9,22 +9,23 @@ In this guide I will explain how to let a LED blink.
 # Schema
 The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resistor is used to limit the current to the LED so it won't blow up. The PIC16F1829 is powered with a voltage of 5V.
 
-![alt text][schema]
+![schema]
 
 
 # Registers
 This is a table with all the registers used in this guide
 | Register | Use case                                |
 | -------- | --------------------------------------- |
+| OSCCON   | Used for setting the clock speed        |
 | TRISC    | Used for setting the pinmode of pin RC0 |
 | LATC     | Used for writing to PORTC               |
-| OSCCON   | Used for setting the clock speed        |
 
-# code
+
+# Code
 The code of a blinking led is pretty straight forward. It consists of some initialization and a endless loop.
 
-## Initialization of the LEDs
-For the LEDs need to be initializated. For this it is important to set the pinmode. The pinmode of a LED is output. According to register 12-16, TRISC, the value `1` is input and `0` is output. 
+## Initialization of the LED
+The LED needs to be initializated. For this, it is important to set the pinmode. The pinmode of a IO-pin is either a input or a output. In case of a LED the pinmode output is used. According to register 12-16, TRISC, the value `1` is input and `0` is output.
 
 ## Endless loop
 The endless loop is comparable with the `void loop()` of the [Arduino](https://arduino.cc). In the endless loop the LEDs are turned on and of with a delay of 500ms. Writes are done to the LATC. This is needed to avoid that the data get corrupt when writing to the same port two instructions one after the other. This is because of how the pic handles bit manipulations: Read-Modify-Write. Because of this it is advised to always use the LAT register when writing to a port instead of writing it directly.
@@ -67,12 +68,13 @@ int main(void) {
   OSCCON = 0b01011000;        // Set the CPU speed on 1MHz
 
   TRISCbits.TRISC0 = 0;       // RC0 is output
+  LATCbits.LATC0 = 0;          // Initialize LED off
   
   while(1) {                  // Endless Loop
-    LATCbits.LATC0 = HIGH;  // Turn on LED RC0
-    __delay_ms(500);        // Wait 500 milliseconds
-    LATCbits.LATC0 = LOW;   // Turn off LED RC0
-    __delay_ms(500);        // Wait 500 milliseconds
+    LATCbits.LATC0 = HIGH;    // Turn on LED RC0
+    __delay_ms(500);          // Wait 500 milliseconds
+    LATCbits.LATC0 = LOW;     // Turn off LED RC0
+    __delay_ms(500);          // Wait 500 milliseconds
   }
   
   return 0;
@@ -131,7 +133,7 @@ Delay2 = 500 / 2
 Delay2 = 250
 ```
 
-### Delay function
+### Code
 ```asm
 ; Specify the PIC16F1829 as processor for security
 processor 16f1829
@@ -174,6 +176,8 @@ start:
   banksel TRISC     ; select the bank which contains TRISC     
   bcf     TRISC, 0  ; make IO Pin RC0 an output         
     
+  banksel LATC      ; select the bank which contains LATC
+  bcf     LATC, 0   ; Turn off Pin RC0
 
 
 loop:    
@@ -182,16 +186,14 @@ loop:
     
   ; Wait 500 milliseconds
   movlw   250       ; Move a value of 250 into the working register
-  movwf   Delay2    ; Move 250 to the variable Delay2
-  call    delayLoop ; Call the delay function: 250*2ms= 500ms delay
+  callw    delayLoop ; Call the delay function: 250*2ms= 500ms delay
 
 
   bsf     LATC, 0   ; Turn on LED RC0
     
   ; Wait 500 milliseconds
   movlw   250       ; Move a value of 250 into the working register
-  movwf   Delay2    ; Move 250 to the variable Delay2
-  call    delayLoop ; Call the delay function: 250*2ms= 500ms delay
+  callw    delayLoop ; Call the delay function: 250*2ms= 500ms delay
     
   ; Go back to the beginning of the loop for an endless loop
   goto    loop
@@ -203,6 +205,9 @@ loop:
 ;     Delay2: <value> * 2ms = delay time
 ;==================================================;
 delayLoop:
+  movwf   Delay2
+
+delayLoopOuter:
   movlw   50            ; 50 * 5 instructions = 250 instr. 
   movwf   Delay1        ; 250 / 125000 instructions/s = 2ms.
                   
@@ -215,7 +220,7 @@ delayLoopInner:
                         ; 50 * 5 instructions = 250 instructions
 
   decfsz  Delay2, f     ; Decrement the delay2 variable to zero
-  bra	    delayLoop     ; If Delay2 is not equal to zero
+  bra	    delayLoopOuter; If Delay2 is not equal to zero
                         ; Do the loop again
   
   return                ; The loops have finished so delay is done

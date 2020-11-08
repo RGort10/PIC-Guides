@@ -6,18 +6,18 @@
   <meta property="og:locale" content="en">
   <meta name="language" content="en">
   
-  <title itemprop="name">Guide 1: Blink &middot; PIC Guides</title>
-  <meta property="og:title" content="Guide 1: Blink &middot; PIC Guides" />
-  <meta name="twitter:title" content="Guide 1: Blink &middot; PIC Guides" />
-  <meta itemprop="name" content="Guide 1: Blink &middot; PIC Guides" />
+  <title itemprop="name">Guide 2: Digital Reading &middot; PIC Guides</title>
+  <meta property="og:title" content="Guide 2: Digital Reading &middot; PIC Guides" />
+  <meta name="twitter:title" content="Guide 2: Digital Reading &middot; PIC Guides" />
+  <meta itemprop="name" content="Guide 2: Digital Reading &middot; PIC Guides" />
   <meta name="application-name" content="PIC Guides" />
   <meta property="og:site_name" content="PIC Guides" />
   
-  <base href="http://pic.renzogort.nl/guides/guide1/">
-  <link rel="canonical" href="http://pic.renzogort.nl/guides/guide1/" itemprop="url" />
-  <meta name="url" content="http://pic.renzogort.nl/guides/guide1/" />
-  <meta name="twitter:url" content="http://pic.renzogort.nl/guides/guide1/" />
-  <meta property="og:url" content="http://pic.renzogort.nl/guides/guide1/" />
+  <base href="http://pic.renzogort.nl/guides/guide2/">
+  <link rel="canonical" href="http://pic.renzogort.nl/guides/guide2/" itemprop="url" />
+  <meta name="url" content="http://pic.renzogort.nl/guides/guide2/" />
+  <meta name="twitter:url" content="http://pic.renzogort.nl/guides/guide2/" />
+  <meta property="og:url" content="http://pic.renzogort.nl/guides/guide2/" />
   
   
     
@@ -31,24 +31,24 @@
   
   
     <meta property="og:type" content="article" />
-    <meta itemprop="description" content="In this guide I will explain how to let a LED blink.
-Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
-    <meta property="og:description" content="In this guide I will explain how to let a LED blink.
-Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
-    <meta name="description" content="In this guide I will explain how to let a LED blink.
-Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
-    <meta name="twitter:description" content="In this guide I will explain how to let a LED blink.
-Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resis" />
-    <meta property="article:published_time" content="2020-11-05T17:34:50&#43;01:00" />
+    <meta itemprop="description" content="In this guide we will make a simple program that reads a push button and displays it&amp;rsquo;s state on a LED.
+Schema The schema for this guide consists of 5 part" />
+    <meta property="og:description" content="In this guide we will make a simple program that reads a push button and displays it&amp;rsquo;s state on a LED.
+Schema The schema for this guide consists of 5 part" />
+    <meta name="description" content="In this guide we will make a simple program that reads a push button and displays it&amp;rsquo;s state on a LED.
+Schema The schema for this guide consists of 5 part" />
+    <meta name="twitter:description" content="In this guide we will make a simple program that reads a push button and displays it&amp;rsquo;s state on a LED.
+Schema The schema for this guide consists of 5 part" />
+    <meta property="article:published_time" content="2020-11-07T14:23:39&#43;01:00" />
     <meta name="twitter:label1" value="Reading time" />
     
-      <meta name="twitter:data1" value="7 minutes" />
+      <meta name="twitter:data1" value="5 minutes" />
     
 
     
   
 
-  <meta property="og:updated_time" content=2020-11-05T17:34:50&#43;0100 />
+  <meta property="og:updated_time" content=2020-11-07T14:23:39&#43;0100 />
 
   
 
@@ -145,17 +145,17 @@ Schema The schema for the first guide is pretty simple. It only consists of 1 LE
     
       <header class="text-center pt-10 pb-6">
         <small class="text-center text-sm">
-          <time class="text-gray-500" datetime="2020-11-05T17:34:50&#43;01:00">
-            November 5, 2020
+          <time class="text-gray-500" datetime="2020-11-07T14:23:39&#43;01:00">
+            November 7, 2020
           </time>
   
           
         </small>
 
         <h1 class="leading-9 text-center">
-          <a href="http://pic.renzogort.nl/guides/guide1/" class="no-underline inline-block text-black relative">
+          <a href="http://pic.renzogort.nl/guides/guide2/" class="no-underline inline-block text-black relative">
             <div class="dots"></div>
-            Guide 1: Blink
+            Guide 2: Digital Reading
           </a>
         </h1>
       </header>
@@ -163,10 +163,10 @@ Schema The schema for the first guide is pretty simple. It only consists of 1 LE
     
 
     <div class="article__content">
-      <p>In this guide I will explain how to let a LED blink.</p>
+      <p>In this guide we will make a simple program that reads a push button and displays it&rsquo;s state on a LED.</p>
 <h1 id="schema">Schema</h1>
-<p>The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resistor is used to limit the current to the LED so it won&rsquo;t blow up. The PIC16F1829 is powered with a voltage of 5V.</p>
-<p><img src="/schemas/guide1-blink.svg" alt="schema" title="Guide 1: Blink | Schema"></p>
+<p>The schema for this guide consists of 5 parts: one PIC16F1829, one LED, two resistors and one push button. The push button is configured as a <a href="https://en.wikipedia.org/wiki/Pull-up_resistor">pull-up</a>. This means that it&rsquo;s normal state is HIGH.</p>
+<p><img src="/schemas/guide2-digitalReading.svg" alt="schema" title="Guide 2: Digital Reading | Schema"></p>
 <h1 id="registers">Registers</h1>
 <p>This is a table with all the registers used in this guide</p>
 <table>
@@ -189,22 +189,33 @@ Schema The schema for the first guide is pretty simple. It only consists of 1 LE
 <td>LATC</td>
 <td>Used for writing to PORTC</td>
 </tr>
+<tr>
+<td>TRISA</td>
+<td>Used for setting the pinmode of pin RA2</td>
+</tr>
+<tr>
+<td>PORTA</td>
+<td>Used for reading from PORTA</td>
+</tr>
+<tr>
+<td>ANSELA</td>
+<td>Used for setting digital mode of pin RA2</td>
+</tr>
 </tbody>
 </table>
 <h1 id="code">Code</h1>
-<p>The code of a blinking led is pretty straight forward. It consists of some initialization and a endless loop.</p>
-<h2 id="initialization-of-the-led">Initialization of the LED</h2>
-<p>The LED needs to be initializated. For this, it is important to set the pinmode. The pinmode of a IO-pin is either a input or a output. In case of a LED the pinmode output is used. According to register 12-16, TRISC, the value <code>1</code> is input and <code>0</code> is output.</p>
-<h2 id="endless-loop">Endless loop</h2>
-<p>The endless loop is comparable with the <code>void loop()</code> of the <a href="https://arduino.cc">Arduino</a>. In the endless loop the LEDs are turned on and of with a delay of 500ms. Writes are done to the LATC. This is needed to avoid that the data get corrupt when writing to the same port two instructions one after the other. This is because of how the pic handles bit manipulations: Read-Modify-Write. Because of this it is advised to always use the LAT register when writing to a port instead of writing it directly.</p>
+<p>The code for guide 2 is straight forward. It consists of 2 parts: Initialization of the LED and button, and a loop in where the state of the button is getting displayed.</p>
+<h2 id="initialization-of-the-led-and-button">Initialization of the LED and button</h2>
+<p>The initialization of the LED is the same as in <a href="/guides/guide1">guide 1</a>. In that guide is explained that you have to set a pinmode and set the prefferd values in the latches. This guide we also have to initialize a button. A button is an input. With an input it is not necessary to set the prefferd value but it is important to select a digital or analog function. If the analog function is select then a digital read on PORTx will result is a value of <code>0</code> even if the actual value is <code>1</code>. It&rsquo;s important to note that according to section 12.2.1, 12.3.1 and 12.4.1 of the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf">datasheet</a> the default function is analog.</p>
+<h2 id="endless-loop">Endless Loop</h2>
+<p>In the endless loop the state of the button will be read with the PORTA register. The difference between PORTA and LATC when reading is that PORTA reads the IO-pin while a read of LATC will result in the value of the port latches. A figure of where different reads and writes takes place can be find in figure 12-1 of the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf">datasheet</a>.</p>
 <h2 id="c">C</h2>
-<h3 id="delay-macro">Delay macro</h3>
-<p>The <code>__delay_ms()</code> is a macro of the compiler to delay for a certain amount of milliseconds. For this <code>_XTAL_FREQ</code> needs to be defined to let the macro know how fast the clock is. This is because the delay function is a simple piece of code that loops till the time is over. So if the clock is two time as fast. The delay will be two times as fast.</p>
+<p>If you want the LED to turn on when the button is pressed. Replace <code>LATCbits.LATC0 = PORTAbits.RA2;</code> with <code>LATCbits.LATC0 = PORTAbits.RA2 ^ 1;</code> OR <code>LATCbits.LATC0 = !PORTAbits.RA2;</code></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/*
-</span><span style="color:#75715e"> * File:   Guide1-blink.c
+</span><span style="color:#75715e"> * File:   Guide2-digitalReading.c
 </span><span style="color:#75715e"> * Author: Renzo Gort
 </span><span style="color:#75715e"> *
-</span><span style="color:#75715e"> * Created on Nov 05, 2020
+</span><span style="color:#75715e"> * Created on Nov 07, 2020
 </span><span style="color:#75715e"> */</span>
 <span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;xc.h&gt;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#define _XTAL_FREQ 1000000      </span><span style="color:#75715e">// CPU 1MHz // Used for macro functions like &#39;__delay_ms()&#39;
@@ -234,56 +245,22 @@ Schema The schema for the first guide is pretty simple. It only consists of 1 LE
 </span><span style="color:#75715e"></span>
   TRISCbits.TRISC0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;       <span style="color:#75715e">// RC0 is output
 </span><span style="color:#75715e"></span>  LATCbits.LATC0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;          <span style="color:#75715e">// Initialize LED off
-</span><span style="color:#75715e"></span>  
+</span><span style="color:#75715e"></span>
+  TRISAbits.TRISA2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;       <span style="color:#75715e">// RA2 is input
+</span><span style="color:#75715e"></span>  ANSELAbits.ANSA2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;       <span style="color:#75715e">// RA2 is digital  
+</span><span style="color:#75715e"></span>
   <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>) {                  <span style="color:#75715e">// Endless Loop
-</span><span style="color:#75715e"></span>    LATCbits.LATC0 <span style="color:#f92672">=</span> HIGH;    <span style="color:#75715e">// Turn on LED RC0
-</span><span style="color:#75715e"></span>    __delay_ms(<span style="color:#ae81ff">500</span>);          <span style="color:#75715e">// Wait 500 milliseconds
-</span><span style="color:#75715e"></span>    LATCbits.LATC0 <span style="color:#f92672">=</span> LOW;     <span style="color:#75715e">// Turn off LED RC0
-</span><span style="color:#75715e"></span>    __delay_ms(<span style="color:#ae81ff">500</span>);          <span style="color:#75715e">// Wait 500 milliseconds
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Display the state of the button on the LED
+</span><span style="color:#75715e"></span>    LATCbits.LATC0 <span style="color:#f92672">=</span> PORTAbits.RA2;
+
+    __delay_ms(<span style="color:#ae81ff">10</span>);           <span style="color:#75715e">// We don&#39;t need to update the LED
+</span><span style="color:#75715e"></span>                              <span style="color:#75715e">// 250000 times per second
+</span><span style="color:#75715e"></span>                              <span style="color:#75715e">// 100 times is enough
 </span><span style="color:#75715e"></span>  }
   
   <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div><h2 id="pic-as">PIC-AS</h2>
-<h3 id="psect">Psect</h3>
-<p>A Psect is a section in the code. It can contain a few settings: code origin, type of content, addressing format, etc. In this program the <code>reset_section</code> is an important piece. This section sets the address of the <code>main_section</code> so the microproccessor knows where to find it. In a later guide a further explanation will be provided. If you want to know more now read section 4.9.40 of the <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/MPLAB%20XC8%20PIC%20Assembler%20User's%20Guide%2050002974A.pdf">Microchip MPLAB® XC8 PIC® Assembler User&rsquo;s Guide</a>.</p>
-<h3 id="registers-1">Registers</h3>
-<p>The PIC16F1829 memory is divided into 32 banks. Each bank consists of 4 parts. 2 of these parts are availible in all banks and for the other two parts the programmer must explicitly say which bank to use. This can be done with the assembler directive <code>banksel</code>. For example if the program wants to use register <code>LATC</code> the program will be something like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">LATC</span>  <span style="color:#75715e">; Select the bank that consists LATC
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">movlw</span>   <span style="color:#ae81ff">0xF0</span>  <span style="color:#75715e">; Move 0xF0 into the working register
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">movwf</span>   <span style="color:#66d9ef">LATC</span>  <span style="color:#75715e">; Write the working register to LATC
-</span></code></pre></div><h4 id="core-registers">Core registers</h4>
-<p>1 part of the registers that is available in all banks are the core registers. These registers affect the basic operation of the PIC-microproccessor directly. The core registers are listed below.</p>
-<ul>
-<li>INDF0</li>
-<li>INDF1</li>
-<li>PCL</li>
-<li>STATUS</li>
-<li>FSR0L</li>
-<li>FSR0H</li>
-<li>FSR1L</li>
-<li>FSR1H</li>
-<li>BSR</li>
-<li>WREG</li>
-<li>PCLATH</li>
-<li>INTCON</li>
-</ul>
-<h4 id="common-ram">Common RAM</h4>
-<p>The second part of the registers that are available in all banks is the common RAM. The common RAM can be used by a programmer without having to worry about which bank is selected. This is useful for data that is regulary used throughout the program.</p>
-<h4 id="special-function-registers">Special Function Registers</h4>
-<p>The special function registers have to be selected before use(with the directive <code>banksel</code>). These registers contain for example: <code>LATC</code>, <code>TRISC</code> and <code>OSCCON</code>. For a full list of registers per bank see table 3-3, 3-4, 3-5, 3-6 and 3-7 of the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf">datasheet</a>.</p>
-<h4 id="general-purpose-ram">General Purpose RAM</h4>
-<p>The general purpose RAM consists of up to 80-bytes per bank. According to table 3-3, 3-4, 3-5, 3-6 and 3-7 of the <a href="http://ww1.microchip.com/downloads/en/DeviceDoc/40001440E.pdf">datasheet</a> only bank 0 till 11 have the full 80-bytes where bank 12 have 48-bytes and bank 13 till 31 have 0-bytes of general purpose RAM. This adds up to a total of 1008-bytes. Together with the 16-bytes of common RAM this is 1024-bytes of RAM.</p>
-<h3 id="delay-function-and-variables">Delay function and variables</h3>
-<p>In the program two variables are used: <code>Delay1</code> and <code>Delay2</code>. These variables are use for the inner and outer loop of the delay function. The inner delay consists of exactly 5 instructions. With this number a delay can be calculated with a simple formula: <code>Delay_time = (Delay1 * 5 / (clock_speed / 4 / 1000)) * Delay2</code>. In this program a delay of 500 ms is used. Each instructioncycle takes 4 clockcycles. Also in this formula the clockspeed is devided by 1000 for use with milliseconds instead of seconds. Together with a Delay1 of 50 the following calculation can be made:</p>
-<pre><code>Delay_time = (Delay1 * 5 / (clock_speed / 4 / 1000)) * Delay2
-Delay2 = Delay_time / (Delay1 * 5 / (clock_speed / 4 / 1000))
-Delay2 = 500 / (50 * 5 / (500000 / 4 / 1000))
-Delay2 = 500 / (250 / (125000 / 1000))
-Delay2 = 500 / (250 / 125)
-Delay2 = 500 / 2
-Delay2 = 250
-</code></pre><h3 id="code-1">Code</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#75715e">; Specify the PIC16F1829 as processor for security
 </span><span style="color:#75715e"></span><span style="color:#a6e22e">processor</span> <span style="color:#ae81ff">16</span><span style="color:#66d9ef">f1829</span>
 
@@ -324,25 +301,31 @@ start:
 
   <span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">TRISC</span>     <span style="color:#75715e">; select the bank which contains TRISC     
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bcf</span>     <span style="color:#66d9ef">TRISC</span>, <span style="color:#ae81ff">0</span>  <span style="color:#75715e">; make IO Pin RC0 an output         
-</span><span style="color:#75715e"></span>    
-  <span style="color:#66d9ef">banksel</span> <span style="color:#66d9ef">LATC</span>      <span style="color:#75715e">; select the bank which contains LATC
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bcf</span>     <span style="color:#66d9ef">LATC</span>, <span style="color:#ae81ff">0</span>   <span style="color:#75715e">; Turn off Pin RC0
+</span><span style="color:#75715e"></span>
+  <span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">LATC</span>      <span style="color:#75715e">; select the bank which contains LATC
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bcf</span>     <span style="color:#66d9ef">LATC</span>, <span style="color:#ae81ff">0</span>   <span style="color:#75715e">; turn off Pin RC0 
+</span><span style="color:#75715e"></span>
+  <span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">TRISA</span>     <span style="color:#75715e">; select the bank which contains TRISC     
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bsf</span>     <span style="color:#66d9ef">TRISA</span>, <span style="color:#ae81ff">2</span>  <span style="color:#75715e">; make IO Pin RA4 an input         
+</span><span style="color:#75715e"></span>
+  <span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">ANSELA</span>    <span style="color:#75715e">; select the bank which contains LATC
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bcf</span>     <span style="color:#66d9ef">ANSELA</span>, <span style="color:#ae81ff">0</span> <span style="color:#75715e">; make IO Pin RA4 digital 
 </span><span style="color:#75715e"></span>
 
 loop:    
-  <span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">LATC</span>      <span style="color:#75715e">; select the bank which contains LATC
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">bcf</span>     <span style="color:#66d9ef">LATC</span>      <span style="color:#75715e">; Turn off LED RC0
-</span><span style="color:#75715e"></span>    
-  <span style="color:#75715e">; Wait 500 milliseconds
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movlw</span>   <span style="color:#ae81ff">250</span>       <span style="color:#75715e">; Move a value of 250 into the working register
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">callw</span>    <span style="color:#66d9ef">delayLoop</span> <span style="color:#75715e">; Call the delay function: 250*2ms= 500ms delay
+  <span style="color:#a6e22e">banksel</span> <span style="color:#66d9ef">PORTA</span> 
+  <span style="color:#66d9ef">movf</span>	  <span style="color:#66d9ef">PORTA</span>, <span style="color:#66d9ef">w</span>  <span style="color:#75715e">; Load value of button in working register
+</span><span style="color:#75715e"></span>  
+  <span style="color:#66d9ef">banksel</span> <span style="color:#66d9ef">LATC</span>
+  <span style="color:#a6e22e">btfsc</span>   <span style="color:#66d9ef">w</span>, <span style="color:#ae81ff">2</span>
+  <span style="color:#a6e22e">bsf</span>     <span style="color:#66d9ef">LATC</span>, <span style="color:#ae81ff">0</span>   <span style="color:#75715e">; If button is pressed turn on LED
 </span><span style="color:#75715e"></span>
-
-  <span style="color:#a6e22e">bsf</span>     <span style="color:#66d9ef">LATC</span>, <span style="color:#ae81ff">0</span>   <span style="color:#75715e">; Turn on LED RC0
-</span><span style="color:#75715e"></span>    
-  <span style="color:#75715e">; Wait 500 milliseconds
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">movlw</span>   <span style="color:#ae81ff">250</span>       <span style="color:#75715e">; Move a value of 250 into the working register
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">callw</span>    <span style="color:#66d9ef">delayLoop</span> <span style="color:#75715e">; Call the delay function: 250*2ms= 500ms delay
+  <span style="color:#a6e22e">btfss</span>   <span style="color:#66d9ef">w</span>, <span style="color:#ae81ff">2</span>
+  <span style="color:#a6e22e">bcf</span>     <span style="color:#66d9ef">LATC</span>, <span style="color:#ae81ff">0</span>   <span style="color:#75715e">; If button is not pressed turn off LED
+</span><span style="color:#75715e"></span>
+  <span style="color:#75715e">; Wait 10 milliseconds
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">movlw</span>   <span style="color:#ae81ff">5</span>         <span style="color:#75715e">; Move a value of 5 into the working register
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">callw</span>   <span style="color:#66d9ef">delayLoop</span> <span style="color:#75715e">; Call the delay function: 5*2ms= 10ms delay
 </span><span style="color:#75715e"></span>    
   <span style="color:#75715e">; Go back to the beginning of the loop for an endless loop
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">goto</span>    <span style="color:#66d9ef">loop</span>
@@ -350,8 +333,8 @@ loop:
 
     
 <span style="color:#75715e">;==================================================;
-</span><span style="color:#75715e">; Delay loop: 
-</span><span style="color:#75715e">;     Delay2: &lt;value&gt; * 2ms = delay time
+</span><span style="color:#75715e">; Delay loop:                                      ;
+</span><span style="color:#75715e">;     W Register: &lt;value&gt; * 2ms = delay time       ;
 </span><span style="color:#75715e">;==================================================;
 </span><span style="color:#75715e"></span>delayLoop:
   <span style="color:#a6e22e">movwf</span>   <span style="color:#66d9ef">Delay2</span>
@@ -391,7 +374,7 @@ delayLoopOuter:
         
         
         
-        <a href="http://twitter.com/share?url=http%3a%2f%2fpic.renzogort.nl%2fguides%2fguide1%2f&text=Guide%201%3a%20Blink&via=" class="text-white text-xs font-bold rounded-md no-underline flex items-center px-3 py-2 bg-twitter hover:color-white hover:opacity-75 no-underline">
+        <a href="http://twitter.com/share?url=http%3a%2f%2fpic.renzogort.nl%2fguides%2fguide2%2f&text=Guide%202%3a%20Digital%20Reading&via=" class="text-white text-xs font-bold rounded-md no-underline flex items-center px-3 py-2 bg-twitter hover:color-white hover:opacity-75 no-underline">
           <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <title>Twitter</title>
             <path d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67v-.53c.8-.59 1.49-1.3 2.04-2.13-.75.33-1.54.55-2.36.65a4.12 4.12 0 0 0 1.8-2.27c-.8.48-1.68.81-2.6 1a4.1 4.1 0 0 0-7 3.74 11.65 11.65 0 0 1-8.45-4.3 4.1 4.1 0 0 0 1.27 5.49C2.01 8.2 1.37 8.03.8 7.7v.05a4.1 4.1 0 0 0 3.3 4.03 4.1 4.1 0 0 1-1.86.07 4.1 4.1 0 0 0 3.83 2.85A8.23 8.23 0 0 1 0 16.4a11.62 11.62 0 0 0 6.29 1.84"></path>
@@ -413,15 +396,10 @@ delayLoopOuter:
 
   <aside class="flex">
   
-    <a class="w-full md:w-1/2 flex flex-col items-center py-7 px-3 no-underline rounded-md hover:bg-white transition duration-300 ease-in-out" href="/guides/guide2/">
-      <span class="border border-gray-6 text-xs rounded-md mb-2 uppercase font-bold py-2 px-3">Read this next</span>
-      <span class="text-center">Guide 2: Digital Reading</span>
-    </a>
   
-  
-    <a class="w-full md:w-1/2 flex flex-col items-center py-7 px-3 no-underline rounded-md hover:bg-white transition duration-300 ease-in-out" href="/guides/general-information/">
+    <a class="w-full md:w-1/2 flex flex-col items-center py-7 px-3 no-underline rounded-md hover:bg-white transition duration-300 ease-in-out" href="/guides/guide1/">
       <span class="border border-gray-6 text-xs rounded-md mb-2 uppercase font-bold py-2 px-3">You might enjoy</span>
-      <span class="text-center">General Information</span>
+      <span class="text-center">Guide 1: Blink</span>
     </a>
   
 </aside>

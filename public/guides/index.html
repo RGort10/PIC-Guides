@@ -37,7 +37,7 @@
     <meta name="twitter:description" content="A collection of PIC guides in PIC-AS and XC8" />
   
 
-  <meta property="og:updated_time" content=2020-11-05T17:34:50&#43;0100 />
+  <meta property="og:updated_time" content=2020-11-07T14:23:39&#43;0100 />
 
   
 
@@ -135,12 +135,20 @@
   
   
     <article class="article border-b border-gray-400">
+      <h1><a href="http://pic.renzogort.nl/guides/guide2/" class="no-underline">Guide 2: Digital Reading</a></h1>
+
+      In this guide we will make a simple program that reads a push button and displays it&rsquo;s state on a LED.
+Schema The schema for this guide consists of 5 parts: one PIC16F1829, one LED, two resistors and one push button. The push button is configured as a pull-up. This means that it&rsquo;s normal state is HIGH.
+Registers This is a table with all the registers used in this guide
+    </article>
+  
+    <article class="article border-b border-gray-400">
       <h1><a href="http://pic.renzogort.nl/guides/guide1/" class="no-underline">Guide 1: Blink</a></h1>
 
       In this guide I will explain how to let a LED blink.
 Schema The schema for the first guide is pretty simple. It only consists of 1 LED and 1 resistor. The resistor is used to limit the current to the LED so it won&rsquo;t blow up. The PIC16F1829 is powered with a voltage of 5V.
 Registers This is a table with all the registers used in this guide
-   Register Use case     TRISC Used for setting the pinmode of pin RC0   LATC Used for writing to PORTC   OSCCON Used for setting the clock speed    code The code of a blinking led is pretty straight forward.
+   Register Use case     OSCCON Used for setting the clock speed   TRISC Used for setting the pinmode of pin RC0   LATC Used for writing to PORTC    Code The code of a blinking led is pretty straight forward.
     </article>
   
     <article class="article border-b border-gray-400">
